@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>แผนการเดินทาง: สุรินทร์ ⇄ จุฬาลงกรณ์มหาวิทยาลัย</title>
+    <title>แผนการเดินทาง: สุรินทร์ ↔ จุฬาลงกรณ์มหาวิทยาลัย (ไป-กลับ)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -24,7 +24,6 @@
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --case1: #e74c3c;
             --case2: #2ecc71;
-            --to-color: #3498db;
         }
         
         body {
@@ -41,119 +40,67 @@
         }
         
         header {
-            background: linear-gradient(135deg, #2c3e50, #3498db);
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
-            padding: 30px 0;
+            padding: 25px 0;
             text-align: center;
             margin-bottom: 30px;
             box-shadow: var(--shadow);
-            border-radius: 0 0 20px 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
-            opacity: 0.1;
-            z-index: 0;
-        }
-        
-        .header-content {
-            position: relative;
-            z-index: 1;
+            border-radius: 0 0 15px 15px;
         }
         
         h1 {
-            font-size: 2.8rem;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
         }
         
         .subtitle {
-            font-size: 1.3rem;
-            opacity: 0.95;
+            font-size: 1.2rem;
+            opacity: 0.9;
             max-width: 900px;
-            margin: 0 auto 20px;
-        }
-        
-        .route-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-weight: bold;
-            margin: 10px 5px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.3);
+            margin: 0 auto;
         }
         
         .tabs {
             display: flex;
             justify-content: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             flex-wrap: wrap;
-            gap: 15px;
         }
         
         .tab {
-            padding: 18px 35px;
+            padding: 15px 30px;
+            margin: 0 10px 10px;
             background: white;
-            border-radius: 15px;
+            border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
             box-shadow: var(--shadow);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 3px solid transparent;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
         }
         
         .tab:hover {
-            transform: translateY(-5px) scale(1.05);
-        }
-        
-        .tab.active {
-            color: white;
-            border-color: var(--primary);
             transform: translateY(-3px);
         }
         
-        .tab-to {
-            border-left: 5px solid var(--to-color);
+        .tab.active {
+            background: var(--secondary);
+            color: white;
+            border-color: var(--primary);
         }
         
-        .tab-to.active {
-            background: linear-gradient(135deg, var(--to-color), #2980b9);
+        .tab-to {
+            border-left: 5px solid var(--success);
         }
         
         .tab-back {
             border-left: 5px solid var(--case1);
         }
         
-        .tab-back.active {
-            background: linear-gradient(135deg, var(--case1), #c0392b);
-        }
-        
-        .tab-summary {
-            border-left: 5px solid var(--success);
-        }
-        
-        .tab-summary.active {
-            background: linear-gradient(135deg, var(--success), #27ae60);
-        }
-        
         .section {
             display: none;
-            animation: fadeIn 0.6s ease;
+            animation: fadeIn 0.5s ease;
         }
         
         .section.active {
@@ -161,139 +108,96 @@
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .main-card {
+        .info-card {
             background: white;
-            border-radius: 15px;
-            padding: 35px;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            border-top: 5px solid;
-            position: relative;
-            overflow: hidden;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
         }
         
-        .main-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--secondary), var(--success));
-            z-index: 1;
+        .info-card.to {
+            border-left: 5px solid var(--success);
         }
         
-        .main-card.to-card {
-            border-top-color: var(--to-color);
+        .info-card.back {
+            border-left: 5px solid var(--case1);
         }
         
-        .main-card.back-card {
-            border-top-color: var(--case1);
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
         
-        .main-card.summary-card {
-            border-top-color: var(--success);
+        .info-item {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
         }
         
-        .card-title {
-            color: var(--primary);
-            margin-bottom: 25px;
-            font-size: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .card-title i {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.8rem;
-        }
-        
-        .to-card .card-title i {
-            background: linear-gradient(135deg, var(--to-color), #2980b9);
-        }
-        
-        .back-card .card-title i {
-            background: linear-gradient(135deg, var(--case1), #c0392b);
-        }
-        
-        .summary-card .card-title i {
-            background: linear-gradient(135deg, var(--success), #27ae60);
+        .info-item i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
         }
         
         .step-container {
-            margin: 30px 0;
+            margin-bottom: 40px;
         }
         
         .step {
-            background: linear-gradient(to right, #f8f9fa, #ffffff);
-            border-radius: 12px;
-            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
             margin-bottom: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            border-left: 6px solid;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--success);
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .step:hover {
-            transform: translateX(5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .to-step {
-            border-left-color: var(--to-color);
-        }
-        
-        .back-step {
-            border-left-color: var(--case1);
+        .step.back-step {
+            border-left: 5px solid var(--case1);
         }
         
         .step-number {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 50px;
-            height: 50px;
+            top: 10px;
+            right: 10px;
+            background: var(--secondary);
+            color: white;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1.4rem;
-            color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            font-size: 1.2rem;
         }
         
-        .to-step .step-number {
-            background: linear-gradient(135deg, var(--to-color), #2980b9);
-        }
-        
-        .back-step .step-number {
-            background: linear-gradient(135deg, var(--case1), #c0392b);
+        .step-number.back {
+            background: var(--case1);
         }
         
         .step h3 {
             color: var(--primary);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 12px;
         }
         
         .step h3 i {
+            margin-right: 10px;
             color: var(--secondary);
         }
         
@@ -301,338 +205,349 @@
             display: flex;
             align-items: center;
             margin: 15px 0;
-            padding: 12px 18px;
-            background: linear-gradient(to right, rgba(52, 152, 219, 0.1), rgba(52, 152, 219, 0.05));
-            border-radius: 10px;
+            padding: 10px 15px;
+            background: var(--light);
+            border-radius: 8px;
             border-left: 4px solid var(--warning);
         }
         
         .time {
             font-weight: bold;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--accent);
-            min-width: 90px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            min-width: 80px;
         }
         
-        .train-options {
+        .case-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            margin: 20px 0;
+            margin-top: 20px;
         }
         
-        .train-option {
-            background: white;
-            border-radius: 12px;
+        .case {
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            border-top: 4px solid var(--secondary);
-            transition: transform 0.3s ease;
+            border-radius: 10px;
+            color: white;
         }
         
-        .train-option:hover {
-            transform: translateY(-5px);
+        .case-a {
+            background: linear-gradient(to right, #2ecc71, #27ae60);
         }
         
-        .train-option h5 {
-            color: var(--primary);
+        .case-b {
+            background: linear-gradient(to right, #f39c12, #e67e22);
+        }
+        
+        .case h4 {
+            font-size: 1.3rem;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.2rem;
         }
         
-        .train-option h5 i {
-            color: var(--secondary);
+        .case h4 i {
+            margin-right: 10px;
         }
         
-        .change-clothes-box {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            border-radius: 12px;
-            padding: 25px;
-            margin: 25px 0;
-            border-left: 6px solid #2196f3;
-            position: relative;
-        }
-        
-        .change-clothes-box::before {
-            content: "👕";
-            position: absolute;
-            top: -15px;
-            left: 20px;
-            font-size: 2rem;
-            background: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        
-        .return-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 30px;
-        }
-        
-        .return-option {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            border-top: 6px solid;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .return-option::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 8px;
-        }
-        
-        .case1-option {
-            border-top-color: var(--case1);
-        }
-        
-        .case1-option::before {
-            background: linear-gradient(90deg, var(--case1), #ff6b6b);
-        }
-        
-        .case2-option {
-            border-top-color: var(--case2);
-        }
-        
-        .case2-option::before {
-            background: linear-gradient(90deg, var(--case2), #1dd1a1);
-        }
-        
-        .option-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 25px;
-        }
-        
-        .option-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 20px;
-            font-size: 2rem;
-            color: white;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-        }
-        
-        .case1-option .option-icon {
-            background: linear-gradient(135deg, var(--case1), #c0392b);
-        }
-        
-        .case2-option .option-icon {
-            background: linear-gradient(135deg, var(--case2), #27ae60);
-        }
-        
-        .option-title {
-            font-size: 1.6rem;
-            color: var(--primary);
-        }
-        
-        .suitability {
-            background: linear-gradient(to right, #fff8e1, #ffecb3);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 5px solid #ffb300;
-        }
-        
-        .luggage-list {
-            background: linear-gradient(to right, #e8f5e9, #c8e6c9);
-            border-radius: 12px;
-            padding: 25px;
-            margin: 25px 0;
-            border-left: 6px solid #4caf50;
-        }
-        
-        .luggage-list ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-        
-        .luggage-list li {
-            padding: 10px 0;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border-bottom: 1px dashed #a5d6a7;
-        }
-        
-        .luggage-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .luggage-list i {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #4caf50;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .summary-box {
-            background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 30px 0;
-            text-align: center;
-            border: 3px solid #4fc3f7;
-        }
-        
-        .summary-box h3 {
-            color: #0277bd;
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-        }
-        
-        .summary-points {
+        .backup-plans {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
         
-        .summary-point {
+        .backup-plan {
             background: white;
-            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--warning);
         }
         
-        .tip-box {
-            background: linear-gradient(to right, #f3e5f5, #e1bee7);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 5px solid #8e24aa;
+        .backup-plan h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 15px;
         }
         
-        .tip-box i {
-            font-size: 2rem;
-            color: #8e24aa;
+        .backup-plan h4 i {
+            margin-right: 10px;
+            color: var(--accent);
+        }
+        
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .summary-table th, .summary-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .summary-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .summary-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .highlight {
+            background-color: rgba(52, 152, 219, 0.1);
+            font-weight: bold;
+        }
+        
+        .route-map {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            position: relative;
+            margin: 40px 0;
+        }
+        
+        .location {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            width: 180px;
+        }
+        
+        .location i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+        
+        .transport {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--secondary);
+            z-index: 1;
+        }
+        
+        .transport::before, .transport::after {
+            content: "";
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: var(--secondary);
+            border-radius: 50%;
+            top: -5px;
+        }
+        
+        .transport::before {
+            left: 180px;
+        }
+        
+        .transport::after {
+            left: calc(100% - 195px);
+        }
+        
+        .return-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .return-option {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border-top: 5px solid;
+        }
+        
+        .return-option.case1 {
+            border-top-color: var(--case1);
+        }
+        
+        .return-option.case2 {
+            border-top-color: var(--case2);
+        }
+        
+        .option-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .option-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.8rem;
+            color: white;
+        }
+        
+        .case1 .option-icon {
+            background: var(--case1);
+        }
+        
+        .case2 .option-icon {
+            background: var(--case2);
+        }
+        
+        .option-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .suitability {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--warning);
+        }
+        
+        .train-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .train-option {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .train-option h5 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .train-option h5 i {
+            margin-right: 8px;
+            color: var(--secondary);
         }
         
         footer {
             text-align: center;
-            margin-top: 50px;
-            padding: 25px;
+            margin-top: 40px;
+            padding: 20px;
             color: #7f8c8d;
-            font-size: 0.95rem;
-            border-top: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+        
+        .warning-note {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .warning-note i {
+            color: #e74c3c;
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .case1-cell {
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+        
+        .case2-cell {
+            background-color: rgba(46, 204, 113, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .route-map {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+            }
+            
+            .transport {
+                display: none;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .case-container, .backup-plans, .return-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab {
+                padding: 12px 20px;
+                margin: 0 5px 10px;
+                font-size: 0.9rem;
+            }
         }
         
         .current-time {
             background: linear-gradient(to right, #34495e, #2c3e50);
             color: white;
-            padding: 12px;
+            padding: 10px;
             text-align: center;
-            font-size: 1rem;
-            margin-bottom: 30px;
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .tab {
-                padding: 15px 25px;
-                font-size: 1rem;
-            }
-            
-            .return-options {
-                grid-template-columns: 1fr;
-            }
-            
-            .main-card {
-                padding: 25px;
-            }
-            
-            .train-options {
-                grid-template-columns: 1fr;
-            }
-            
-            .step {
-                padding: 25px 20px;
-            }
-            
-            .option-header {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .option-icon {
-                margin-right: 0;
-                margin-bottom: 15px;
-            }
-        }
-        
-        .progress-container {
-            width: 100%;
-            height: 8px;
-            background: #ecf0f1;
-            border-radius: 4px;
-            margin: 40px 0;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--to-color), var(--success));
-            width: 0%;
-            border-radius: 4px;
-            transition: width 1s ease;
-        }
-        
-        .progress-labels {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            font-weight: bold;
-            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-radius: 0 0 10px 10px;
+            margin-top: -30px;
+            margin-bottom: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="header-content">
-            <h1><i class="fas fa-exchange-alt"></i> แผนการเดินทางทั้งหมด</h1>
-            <p class="subtitle">สุรินทร์ ⇄ จุฬาลงกรณ์มหาวิทยาลัย | เดินทางด้วยรถไฟ | เปลี่ยนชุดที่สถานีกลางบางซื่อ</p>
-            <div>
-                <span class="route-badge"><i class="fas fa-train"></i> รถไฟขบวนกลางคืน</span>
-                <span class="route-badge"><i class="fas fa-tshirt"></i> เปลี่ยนชุดที่สถานีกลาง</span>
-                <span class="route-badge"><i class="fas fa-subway"></i> MRT สายสีน้ำเงิน</span>
-            </div>
+        <div class="container">
+            <h1><i class="fas fa-exchange-alt"></i> แผนการเดินทาง: สุรินทร์ ↔ จุฬาลงกรณ์มหาวิทยาลัย</h1>
+            <p class="subtitle">แผนการเดินทางไป-กลับแบบทีละขั้นตอน อิงขบวนรถไฟ 140 วันที่ 27/03/2569</p>
         </div>
     </header>
     
@@ -643,315 +558,422 @@
     <div class="container">
         <div class="tabs">
             <div class="tab tab-to active" data-target="to-section">
-                <i class="fas fa-long-arrow-alt-right"></i> ขาไป : สุรินทร์ → จุฬาฯ
+                <i class="fas fa-long-arrow-alt-right"></i> ขาไป: สุรินทร์ → จุฬาฯ
             </div>
             <div class="tab tab-back" data-target="back-section">
-                <i class="fas fa-long-arrow-alt-left"></i> ขากลับ : จุฬาฯ → สุรินทร์
-            </div>
-            <div class="tab tab-summary" data-target="summary-section">
-                <i class="fas fa-clipboard-check"></i> สรุปการเดินทาง
+                <i class="fas fa-long-arrow-alt-left"></i> ขากลับ: จุฬาฯ → สุรินทร์
             </div>
         </div>
         
-        <!-- ขาไป : สุรินทร์ → จุฬาฯ -->
+        <!-- ขาไป: สุรินทร์ → จุฬาฯ -->
         <section id="to-section" class="section active">
-            <div class="main-card to-card">
-                <h2 class="card-title"><i class="fas fa-arrow-right"></i> ขาไป : สุรินทร์ → จุฬาลงกรณ์มหาวิทยาลัย</h2>
+            <div class="info-card to">
+                <h2><i class="fas fa-map-signs"></i> แผนการเดินทางขาไป: สุรินทร์ → จุฬาลงกรณ์มหาวิทยาลัย</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="fas fa-calendar-day"></i>
+                        <h3>วันเดินทาง</h3>
+                        <p>ศุกร์ 27 มีนาคม 2569</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-train"></i>
+                        <h3>ขบวนรถไฟ</h3>
+                        <p>ขบวน 140 (รถเร็ว)</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-university"></i>
+                        <h3>จุดหมายปลายทาง</h3>
+                        <p>จุฬาลงกรณ์มหาวิทยาลัย</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-container">
+                <h2 style="color: var(--primary); margin-bottom: 20px;"><i class="fas fa-map-signs"></i> แผนการเดินทางทีละขั้นตอน (ขาไป)</h2>
                 
-                <div class="progress-container">
-                    <div class="progress-bar" id="progress-to"></div>
-                    <div class="progress-labels">
-                        <span>เตรียมตัว</span>
-                        <span>ขึ้นรถไฟ</span>
-                        <span>เปลี่ยนชุด</span>
-                        <span>MRT</span>
-                        <span>ถึงจุฬาฯ</span>
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3><i class="fas fa-map-marker-alt"></i> STEP 1: สุรินทร์ → รถไฟ</h3>
+                    <p><strong>วันที่ 27 มีนาคม 2569</strong></p>
+                    <div class="time-line">
+                        <div class="time">22:00</div>
+                        <div>ถึงสถานีรถไฟสุรินทร์</div>
+                    </div>
+                    <div class="time-line">
+                        <div class="time">22:56</div>
+                        <div>ขึ้นรถไฟขบวน 140 (รถเร็ว)</div>
+                    </div>
+                    <p>ระหว่างทาง: นั่งพัก / นอนบนรถไฟ</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3><i class="fas fa-city"></i> STEP 2: ถึงกรุงเทพ</h3>
+                    <p><strong>วันที่ 28 มีนาคม 2569</strong></p>
+                    <div class="time-line">
+                        <div class="time">06:50</div>
+                        <div>ถึงสถานีกลางกรุงเทพอภิวัฒน์ (บางซื่อ)</div>
+                        <div style="margin-top:8px; color:#2c3e50; background:#eaf6ff; padding:8px 12px; border-radius:6px; font-size:1rem;">
+                            <i class="fas fa-tshirt"></i> <strong>เปลี่ยนชุดจาก <span style="color:#e67e22">ชุดเล่น</span> เป็น <span style="color:#2980b9">ชุดนักเรียน</span> ที่สถานีกลางกรุงเทพอภิวัฒน์</strong>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="step-container">
-                    <div class="step to-step">
-                        <div class="step-number">0</div>
-                        <h3><i class="fas fa-suitcase"></i> STEP 0: เตรียมตัวที่สุรินทร์</h3>
-                        <p><strong>เตรียมชุดสำหรับการเดินทาง:</strong></p>
-                        <ul style="padding-left: 20px; margin: 15px 0;">
-                            <li>ใส่ <strong>ชุดเล่น</strong> สำหรับเดินทาง</li>
-                            <li><strong>ชุดนักเรียน</strong> ใส่กระเป๋า</li>
-                        </ul>
-                        <div class="time-line">
-                            <div class="time">30-45</div>
-                            <div>นาที (เผื่อเวลาไปสถานีรถไฟสุรินทร์)</div>
-                        </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3><i class="fas fa-subway"></i> STEP 3: กรุงเทพอภิวัฒน์ → หมอชิต</h3>
+                    <div class="time-line">
+                        <div class="time">06:55</div>
+                        <div>เดินเข้าทาง MRT บางซื่อ</div>
                     </div>
+                    <div class="time-line">
+                        <div class="time">07:05</div>
+                        <div>ขึ้น MRT สายสีน้ำเงิน</div>
+                    </div>
+                    <div class="time-line">
+                        <div class="time">07:10</div>
+                        <div>ลง MRT สวนจตุจักร</div>
+                    </div>
+                    <div class="time-line">
+                        <div class="time">07:15</div>
+                        <div>เดินขึ้นไป BTS หมอชิต</div>
+                    </div>
+                    <div class="highlight" style="padding: 10px; border-radius: 5px; margin-top: 10px;">
+                        <i class="fas fa-flag-checkered"></i> <strong>ถึงหมอชิตประมาณ 07:15 น.</strong>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3><i class="fas fa-user-friends"></i> STEP 4: รอเพื่อนที่หมอชิต (2 กรณี)</h3>
                     
-                    <div class="step to-step">
-                        <div class="step-number">1</div>
-                        <h3><i class="fas fa-train"></i> STEP 1: ขึ้นรถไฟจากสุรินทร์ → กรุงเทพอภิวัฒน์</h3>
-                        <p>เลือกขบวนกลางคืน (ตามที่จองไว้):</p>
+                    <div class="case-container">
+                        <div class="case case-a">
+                            <h4><i class="fas fa-check-circle"></i> กรณี A: เพื่อนมาถึงแล้ว</h4>
+                            <div class="time-line" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+                                <div class="time">07:15</div>
+                                <div>เจอเพื่อน</div>
+                            </div>
+                            <div class="time-line" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+                                <div class="time">07:20</div>
+                                <div>ลง MRT สวนจตุจักร</div>
+                            </div>
+                        </div>
                         
-                        <div class="train-options">
-                            <div class="train-option">
-                                <h5><i class="fas fa-bed"></i> ขบวน 24 (ด่วนพิเศษ CNR)</h5>
-                                <p>มีเตียงนอน, แอร์, สบาย</p>
+                        <div class="case case-b">
+                            <h4><i class="fas fa-clock"></i> กรณี B: รอเพื่อน 30 นาที</h4>
+                            <div class="time-line" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+                                <div class="time">07:15 – 07:45</div>
+                                <div>รอเพื่อน</div>
                             </div>
-                            
-                            <div class="train-option">
-                                <h5><i class="fas fa-chair"></i> ขบวน 140 (รถเร็ว)</h5>
-                                <p>ประหยัด, นั่งยาว</p>
+                            <div class="time-line" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+                                <div class="time">07:45</div>
+                                <div>ลง MRT สวนจตุจักร</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <h3><i class="fas fa-graduation-cap"></i> STEP 5: หมอชิต → จุฬาลงกรณ์มหาวิทยาลัย</h3>
+                    <p><strong>MRT สายสีน้ำเงิน (ขึ้นฝั่ง "หลักสอง") → ลงสถานีสามย่าน</strong></p>
+                    
+                    <h4 style="margin-top: 15px; color: var(--primary);">เวลาโดยประมาณ:</h4>
+                    <div class="case-container">
+                        <div class="case" style="background: linear-gradient(to right, #3498db, #2980b9);">
+                            <h4><i class="fas fa-bolt"></i> กรณี A (เพื่อนถึงแล้ว)</h4>
+                            <div class="time-line" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+                                <div class="time">07:25</div>
+                                <div>ขึ้น MRT</div>
+                            </div>
+                            <div class="time-line" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+                                <div class="time">07:50</div>
+                                <div>ลงสามย่าน</div>
+                            </div>
+                            <div class="time-line" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+                                <div class="time">08:05</div>
+                                <div><strong>ถึงจุฬาฯ</strong></div>
                             </div>
                         </div>
                         
-                        <p>➡️ นั่ง / นอนบนรถไฟ</p>
-                        <p>➡️ ถึง สถานีกลางกรุงเทพอภิวัฒน์ (บางซื่อ) ช่วงเช้า</p>
-                    </div>
-                    
-                    <div class="change-clothes-box">
-                        <h3><i class="fas fa-tshirt"></i> STEP 2: เปลี่ยนชุดที่สถานีกลางบางซื่อ</h3>
-                        <p>📍 <strong>ห้องน้ำในอาคารสถานี</strong> (ยังไม่ต้องออกจากสถานี)</p>
-                        <ul style="padding-left: 20px; margin: 15px 0;">
-                            <li>เข้า 🚻 ห้องน้ำ</li>
-                            <li>เปลี่ยนจาก <strong>ชุดเล่น → ชุดนักเรียน</strong></li>
-                            <li>ใช้เวลา 5–10 นาที</li>
-                        </ul>
-                        <div class="tip-box">
-                            <i class="fas fa-lightbulb"></i>
-                            <div>
-                                <strong>คำแนะนำ:</strong> ทำขั้นตอนนี้ทันทีหลังลงรถไฟ เพื่อประหยัดเวลาและไม่ต้องแบกกระเป๋าเดินทางไปเปลี่ยนชุดที่อื่น
+                        <div class="case" style="background: linear-gradient(to right, #9b59b6, #8e44ad);">
+                            <h4><i class="fas fa-clock"></i> กรณี B (รอเพื่อน 30 นาที)</h4>
+                            <div class="time-line" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+                                <div class="time">07:50</div>
+                                <div>ขึ้น MRT</div>
+                            </div>
+                            <div class="time-line" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+                                <div class="time">08:15</div>
+                                <div>ลงสามย่าน</div>
+                            </div>
+                            <div class="time-line" style="background: rgba(255,255,255,0.2); border-left-color: white;">
+                                <div class="time">08:30</div>
+                                <div><strong>ถึงจุฬาฯ</strong></div>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="step to-step">
-                        <div class="step-number">3</div>
-                        <h3><i class="fas fa-walking"></i> STEP 3: บางซื่อ → MRT สายสีน้ำเงิน</h3>
-                        <p>เดินตามป้าย MRT บางซื่อ → ผ่านประตู MRT</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <h3><i class="fas fa-walking"></i> STEP 6: เดินเข้าจุฬาฯ</h3>
+                    <p>ออก <strong>MRT สามย่าน ทางออก 2</strong> → เดินผ่านสามย่านมิตรทาวน์ → เดินต่อ 5–10 นาที</p>
+                    <div class="highlight" style="padding: 10px; border-radius: 5px; margin-top: 10px; text-align: center;">
+                        <i class="fas fa-university"></i> <strong>ถึงจุฬาลงกรณ์มหาวิทยาลัย</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-card to">
+                <h2><i class="fas fa-life-ring"></i> แผนสำรองขาไป (ถ้า MRT ไม่ทัน / คนแน่น)</h2>
+                
+                <div class="backup-plans">
+                    <div class="backup-plan">
+                        <h4><i class="fas fa-subway"></i> แผนสำรอง 1 (ง่ายสุด)</h4>
+                        <p>รอ MRT ขบวนถัดไป</p>
+                        <div class="time-line">
+                            <div class="time">+5-7</div>
+                            <div>นาทีเพิ่มเติม</div>
+                        </div>
                     </div>
                     
-                    <div class="step to-step">
-                        <div class="step-number">4</div>
-                        <h3><i class="fas fa-subway"></i> STEP 4: MRT บางซื่อ → MRT สามย่าน</h3>
-                        <p>ขึ้น MRT สายสีน้ำเงิน → ไปทาง ท่าพระ / หลักสอง → ลงที่ <strong>สถานีสามย่าน</strong></p>
+                    <div class="backup-plan">
+                        <h4><i class="fas fa-train"></i> แผนสำรอง 2 (BTS)</h4>
+                        <p>BTS หมอชิต → สยาม → เดิน/ต่อรถไปจุฬาฯ</p>
+                    </div>
+                    
+                    <div class="backup-plan">
+                        <h4><i class="fas fa-taxi"></i> แผนสำรอง 3 (เร่งด่วน)</h4>
+                        <p>Grab / Taxi จากหมอชิต → จุฬาฯ</p>
                         <div class="time-line">
-                            <div class="time">20-25</div>
+                            <div class="time">15-30</div>
                             <div>นาที</div>
-                        </div>
-                    </div>
-                    
-                    <div class="step to-step">
-                        <div class="step-number">5</div>
-                        <h3><i class="fas fa-graduation-cap"></i> STEP 5: MRT สามย่าน → จุฬาลงกรณ์มหาวิทยาลัย</h3>
-                        <p>ออกทางออก 2 → เดินเข้าจุฬาฯ</p>
-                        <div class="time-line">
-                            <div class="time">5-10</div>
-                            <div>นาที (เวลาเดิน)</div>
-                        </div>
-                        <div style="text-align: center; margin-top: 20px; padding: 15px; background: linear-gradient(to right, #e8f5e9, #c8e6c9); border-radius: 10px;">
-                            <h4 style="color: #2e7d32;"><i class="fas fa-flag-checkered"></i> ถึงจุฬาลงกรณ์มหาวิทยาลัย</h4>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <div class="info-card to">
+                <h2><i class="fas fa-clock"></i> สรุปเวลาถึงจุฬาลงกรณ์มหาวิทยาลัย (ขาไป)</h2>
+                
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>สถานการณ์</th>
+                            <th>ถึงจุฬาฯ</th>
+                            <th>หมายเหตุ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><i class="fas fa-check-circle" style="color: #2ecc71;"></i> เพื่อนถึงแล้ว (กรณี A)</td>
+                            <td>~08:05 น.</td>
+                            <td>เวลาเหมาะสม</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fas fa-clock" style="color: #f39c12;"></i> รอเพื่อน 30 นาที (กรณี B)</td>
+                            <td>~08:30 น.</td>
+                            <td>ยังอยู่ในช่วงเช้า</td>
+                        </tr>
+                        <tr class="highlight">
+                            <td><i class="fas fa-exclamation-triangle" style="color: #e74c3c;"></i> เผื่อดีเลย์/รถติด</td>
+                            <td>ไม่เกิน 08:45 น.</td>
+                            <td>ขีดจำกัดสูงสุด</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
         
-        <!-- ขากลับ : จุฬาฯ → สุรินทร์ -->
+        <!-- ขากลับ: จุฬาฯ → สุรินทร์ -->
         <section id="back-section" class="section">
-            <div class="main-card back-card">
-                <h2 class="card-title"><i class="fas fa-arrow-left"></i> ขากลับ : จุฬาลงกรณ์มหาวิทยาลัย → สุรินทร์</h2>
-                <p style="font-size: 1.2rem; margin-bottom: 25px;">แบ่งเป็น 2 กรณีตามความเหมาะสม</p>
+            <div class="info-card back">
+                <h2><i class="fas fa-map-signs"></i> แผนการเดินทางขากลับ: จุฬาลงกรณ์มหาวิทยาลัย → สุรินทร์</h2>
+                <p style="margin-top: 10px;">แผนการเดินทางขากลับมี 2 กรณีให้เลือกตามความเหมาะสม</p>
                 
                 <div class="return-options">
-                    <!-- กรณีที่ 1 -->
-                    <div class="return-option case1-option">
+                    <div class="return-option case1">
                         <div class="option-header">
                             <div class="option-icon">
                                 <i class="fas fa-home"></i>
                             </div>
                             <div>
-                                <h3 class="option-title">🔴 กรณีที่ 1 : กลับสุรินทร์ "วันนั้นเลย"</h3>
-                                <p>เหมาะสำหรับผู้ที่ไม่อยากค้างคืน</p>
+                                <h3 class="option-title">🔴 กรณีที่ 1: กลับสุรินทร์ "วันนั้นเลย"</h3>
+                                <p>เหมาะสำหรับผู้ที่ต้องการกลับบ้านทันที</p>
                             </div>
                         </div>
                         
                         <div class="suitability">
-                            <h4><i class="fas fa-thumbs-up"></i> เหมาะสำหรับ:</h4>
-                            <p>• เสร็จธุระที่จุฬาฯ ไม่ดึกมาก</p>
-                            <p>• พร้อมขึ้นรถไฟกลางคืน</p>
-                            <p>• ไม่อยากหาที่พักเพิ่ม</p>
+                            <h4><i class="fas fa-thumbs-up"></i> เหมาะถ้า...</h4>
+                            <p>✔ ไม่อยากค้างคืน</p>
+                            <p>✔ เสร็จธุระที่จุฬาฯ ไม่ดึกมาก</p>
+                            <p>✔ พร้อมขึ้นรถไฟกลางคืน</p>
                         </div>
                         
-                        <div class="step back-step" style="margin: 20px 0;">
-                            <div class="step-number">1</div>
+                        <h4><i class="fas fa-list-ol"></i> ขั้นตอนการเดินทาง</h4>
+                        
+                        <div class="step back-step" style="margin: 20px 0; padding: 20px;">
+                            <div class="step-number back">1</div>
                             <h4><i class="fas fa-walking"></i> STEP 1: จุฬาฯ → MRT สามย่าน</h4>
-                            <p>เดินออกจากจุฬาฯ → เข้า MRT สามย่าน</p>
+                            <p>เดินออกจากพื้นที่จุฬาฯ → เข้า MRT สถานีสามย่าน</p>
                             <div class="time-line">
                                 <div class="time">10-15</div>
                                 <div>นาที (เผื่อเวลาเดิน)</div>
                             </div>
                         </div>
                         
-                        <div class="step back-step" style="margin: 20px 0;">
-                            <div class="step-number">2</div>
-                            <h4><i class="fas fa-subway"></i> STEP 2: MRT สามย่าน → บางซื่อ</h4>
-                            <p>MRT สายสีน้ำเงิน → ลง สถานีบางซื่อ</p>
+                        <div class="step back-step" style="margin: 20px 0; padding: 20px;">
+                            <div class="step-number back">2</div>
+                            <h4><i class="fas fa-subway"></i> STEP 2: MRT สามย่าน → สถานีบางซื่อ</h4>
+                            <p>ขึ้น MRT สายสีน้ำเงิน ไปทาง บางซื่อ / ท่าพระ → ลงสถานีบางซื่อ</p>
                             <div class="time-line">
                                 <div class="time">20-25</div>
                                 <div>นาที</div>
                             </div>
                         </div>
                         
-                        <div class="change-clothes-box">
-                            <h4><i class="fas fa-tshirt"></i> STEP 3: เปลี่ยนชุด (ถ้ายังไม่ได้เปลี่ยน)</h4>
-                            <p>📍 <strong>ห้องน้ำสถานีกลางบางซื่อ</strong></p>
-                            <ul style="padding-left: 20px; margin: 10px 0;">
-                                <li>เปลี่ยนจาก <strong>ชุดนักเรียน → ชุดเล่น</strong></li>
-                                <li>จัดกระเป๋าให้เรียบร้อย</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="step back-step" style="margin: 20px 0;">
-                            <div class="step-number">4</div>
-                            <h4><i class="fas fa-clock"></i> STEP 4: รอขึ้นรถไฟ</h4>
-                            <p>เช็กขบวน / ชานชาลา → เข้าประตูตรวจตั๋ว</p>
-                            <div class="tip-box">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <div><strong>ควรถึงก่อนรถออกอย่างน้อย 45 นาที</strong></div>
+                        <div class="step back-step" style="margin: 20px 0; padding: 20px;">
+                            <div class="step-number back">3</div>
+                            <h4><i class="fas fa-walking"></i> STEP 3: บางซื่อ → สถานีกลางกรุงเทพอภิวัฒน์</h4>
+                            <p>เดินตามป้าย "สถานีกลางกรุงเทพอภิวัฒน์"</p>
+                            <div class="time-line">
+                                <div class="time">5-10</div>
+                                <div>นาที</div>
                             </div>
+                            <p style="margin-top: 10px;"><strong>📌 ควรถึงสถานีก่อนรถออกอย่างน้อย 45 นาที</strong></p>
                         </div>
                         
-                        <div class="step back-step" style="margin: 20px 0;">
-                            <div class="step-number">5</div>
-                            <h4><i class="fas fa-train"></i> STEP 5: ขึ้นรถไฟ → สุรินทร์</h4>
-                            <p>ขบวนกลางคืน → นั่ง / นอน → ถึงสุรินทร์เช้าวันถัดไป</p>
+                        <div class="step back-step" style="margin: 20px 0; padding: 20px;">
+                            <div class="step-number back">4</div>
+                            <h4><i class="fas fa-train"></i> STEP 4: ขึ้นรถไฟกลับสุรินทร์ (ขบวนกลางคืน)</h4>
+                            <p>ตัวอย่างขบวนยอดนิยม:</p>
+                            
+                            <div class="train-options">
+                                <div class="train-option">
+                                    <h5><i class="fas fa-bed"></i> ขบวน 24 (ด่วนพิเศษ CNR)</h5>
+                                    <p>ออก ~21:38</p>
+                                    <p>มีเตียงนอน แอร์ สบาย</p>
+                                </div>
+                                
+                                <div class="train-option">
+                                    <h5><i class="fas fa-chair"></i> ขบวน 140 (รถเร็ว)</h5>
+                                    <p>ออก ~22:56</p>
+                                    <p>ประหยัด นั่งยาว</p>
+                                </div>
+                            </div>
+                            
+                            <p>➡️ นอนบนรถไฟ</p>
+                            <p>➡️ ถึงสุรินทร์ เช้าวันถัดไป</p>
                         </div>
                     </div>
                     
-                    <!-- กรณีที่ 2 -->
-                    <div class="return-option case2-option">
+                    <div class="return-option case2">
                         <div class="option-header">
                             <div class="option-icon">
                                 <i class="fas fa-bed"></i>
                             </div>
                             <div>
-                                <h3 class="option-title">🟢 กรณีที่ 2 : กลับสุรินทร์ "วันถัดไป"</h3>
+                                <h3 class="option-title">🟢 กรณีที่ 2: กลับสุรินทร์ "วันถัดไป"</h3>
                                 <p>เหมาะสำหรับผู้ที่ต้องการพักผ่อนก่อนเดินทาง</p>
                             </div>
                         </div>
                         
                         <div class="suitability">
-                            <h4><i class="fas fa-thumbs-up"></i> เหมาะสำหรับ:</h4>
-                            <p>• อยากพักผ่อน</p>
-                            <p>• มีที่พัก (เช่น ลาดกระบัง / ในกรุงเทพ)</p>
-                            <p>• ไม่อยากรีบ</p>
+                            <h4><i class="fas fa-thumbs-up"></i> เหมาะถ้า...</h4>
+                            <p>✔ อยากพักผ่อน</p>
+                            <p>✔ มีที่พัก (เช่น ลาดกระบัง / ในกรุงเทพ)</p>
+                            <p>✔ ไม่อยากรีบ</p>
                         </div>
                         
-                        <h4 style="margin-top: 25px; color: var(--primary);"><i class="fas fa-sun"></i> วันแรก (ยังไม่กลับ)</h4>
+                        <h4><i class="fas fa-calendar-day"></i> วันแรก (วันที่อยู่จุฬาฯ)</h4>
                         
-                        <div class="step back-step" style="margin: 20px 0;">
-                            <div class="step-number">1</div>
-                            <h4><i class="fas fa-subway"></i> STEP 1: จุฬาฯ → MRT สามย่าน → บางซื่อ</h4>
-                            <p>เหมือนกรณีที่ 1</p>
+                        <div class="step back-step" style="margin: 20px 0; padding: 20px;">
+                            <div class="step-number back">1</div>
+                            <h4><i class="fas fa-walking"></i> STEP 1: จุฬาฯ → MRT สามย่าน</h4>
+                            <p>เหมือนกรณีแรก</p>
                         </div>
                         
-                        <div class="step back-step" style="margin: 20px 0;">
-                            <div class="step-number">2</div>
-                            <h4><i class="fas fa-train"></i> STEP 2: บางซื่อ → พญาไท → ลาดกระบัง</h4>
-                            <p>MRT / BTS → พญาไท → ต่อ Airport Rail Link → ลง ลาดกระบัง</p>
+                        <div class="step back-step" style="margin: 20px 0; padding: 20px;">
+                            <div class="step-number back">2</div>
+                            <h4><i class="fas fa-subway"></i> STEP 2: MRT สามย่าน → พญาไท</h4>
+                            <p>MRT สายสีน้ำเงิน → ลง บางซื่อ → เปลี่ยนเป็น BTS → นั่งไปลง พญาไท</p>
                             <div class="time-line">
-                                <div class="time">~1</div>
-                                <div>ชั่วโมง (เวลาโดยประมาณ)</div>
+                                <div class="time">~30</div>
+                                <div>นาที</div>
+                            </div>
+                        </div>
+                        
+                        <div class="step back-step" style="margin: 20px 0; padding: 20px;">
+                            <div class="step-number back">3</div>
+                            <h4><i class="fas fa-train"></i> STEP 3: พญาไท → ลาดกระบัง</h4>
+                            <p>เข้า Airport Rail Link → ลง สถานีลาดกระบัง</p>
+                            <div class="time-line">
+                                <div class="time">~25</div>
+                                <div>นาที</div>
                             </div>
                             <p style="margin-top: 10px;">➡️ เข้าที่พัก</p>
                             <p>➡️ พักผ่อน</p>
                         </div>
                         
-                        <h4 style="margin-top: 30px; color: var(--primary);"><i class="fas fa-calendar-day"></i> วันที่สอง (วันกลับ)</h4>
+                        <h4 style="margin-top: 30px;"><i class="fas fa-calendar-plus"></i> วันที่สอง (วันเดินทางกลับสุรินทร์)</h4>
                         
-                        <div class="step back-step" style="margin: 20px 0;">
-                            <div class="step-number">3</div>
-                            <h4><i class="fas fa-road"></i> STEP 3: ที่พัก → บางซื่อ</h4>
-                            <p>Airport Rail Link → พญาไท → BTS / MRT → บางซื่อ</p>
+                        <div class="step back-step" style="margin: 20px 0; padding: 20px;">
+                            <div class="step-number back">4</div>
+                            <h4><i class="fas fa-road"></i> STEP 4: ที่พัก → สถานีกลางกรุงเทพอภิวัฒน์</h4>
+                            <p>Airport Rail Link ลาดกระบัง → พญาไท → BTS / MRT → บางซื่อ → เดินเข้าสถานีกลาง</p>
                             <div class="time-line">
                                 <div class="time">1-1.30</div>
                                 <div>ชั่วโมง (เผื่อเวลา)</div>
                             </div>
                         </div>
                         
-                        <div class="step back-step" style="margin: 20px 0;">
-                            <div class="step-number">4</div>
-                            <h4><i class="fas fa-tshirt"></i> STEP 4: เปลี่ยนชุด (ถ้าจำเป็น)</h4>
-                            <p>ห้องน้ำสถานีกลางบางซื่อ</p>
-                        </div>
-                        
-                        <div class="step back-step" style="margin: 20px 0;">
-                            <div class="step-number">5</div>
-                            <h4><i class="fas fa-train"></i> STEP 5: ขึ้นรถไฟ → สุรินทร์</h4>
-                            <p>เลือกขบวนกลางวันหรือกลางคืน → ถึงสุรินทร์ตามเวลา</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- สรุปการเดินทาง -->
-        <section id="summary-section" class="section">
-            <div class="main-card summary-card">
-                <h2 class="card-title"><i class="fas fa-clipboard-check"></i> สรุปการเดินทางทั้งหมด</h2>
-                
-                <div class="luggage-list">
-                    <h3><i class="fas fa-suitcase"></i> สรุปของที่ควรเตรียม</h3>
-                    <ul>
-                        <li><i class="fas fa-tshirt"></i> ชุดนักเรียน (พับใส่ถุง)</li>
-                        <li><i class="fas fa-tshirt"></i> ชุดเล่น</li>
-                        <li><i class="fas fa-shoe-prints"></i> รองเท้า / ถุงเท้า</li>
-                        <li><i class="fas fa-toothbrush"></i> ของใช้ส่วนตัว</li>
-                        <li><i class="fas fa-ticket-alt"></i> ตั๋วรถไฟ / มือถือ / เงิน</li>
-                    </ul>
-                </div>
-                
-                <div class="summary-box">
-                    <h3><i class="fas fa-bolt"></i> สรุปสั้นมาก</h3>
-                    <p style="font-size: 1.3rem; margin-bottom: 15px;">
-                        <strong>เปลี่ยนชุดที่สถานีกลางบางซื่อ = เหมาะที่สุด</strong>
-                    </p>
-                    <div class="summary-points">
-                        <div class="summary-point">
-                            <h4><i class="fas fa-arrow-right" style="color: var(--to-color);"></i> ขาไป</h4>
-                            <p>สุรินทร์ → บางซื่อ → เปลี่ยนชุด → MRT → จุฬาฯ</p>
-                        </div>
-                        <div class="summary-point">
-                            <h4><i class="fas fa-arrow-left" style="color: var(--case1);"></i> ขากลับ</h4>
-                            <p>จุฬาฯ → บางซื่อ → (กลับวันนั้น / วันถัดไป)</p>
+                        <div class="step back-step" style="margin: 20px 0; padding: 20px;">
+                            <div class="step-number back">5</div>
+                            <h4><i class="fas fa-train"></i> STEP 5: ขึ้นรถไฟกลับสุรินทร์ (ขบวนกลางวันหรือกลางคืน)</h4>
+                            <p>ตัวเลือก:</p>
+                            <ul style="padding-left: 20px; margin: 10px 0;">
+                                <li>🚆 ด่วน / ด่วนพิเศษ (เร็ว)</li>
+                                <li>🚆 รถเร็ว (ประหยัด)</li>
+                            </ul>
+                            <p style="margin-top: 10px;"><strong>📌 ถึงสถานีก่อนรถออก 45 นาที</strong></p>
                         </div>
                     </div>
                 </div>
                 
-                <div class="tip-box" style="margin-top: 30px;">
-                    <i class="fas fa-lightbulb"></i>
+                <div style="margin-top: 30px;">
+                    <h3><i class="fas fa-clipboard-check"></i> สรุปเลือกง่ายมาก</h3>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>สถานการณ์</th>
+                                <th>เลือกแบบ</th>
+                                <th>จุดเด่น</th>
+                                <th>เวลาเดินทางรวม</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>อยากกลับทันที</td>
+                                <td class="case1-cell">🔴 กรณีที่ 1</td>
+                                <td class="case1-cell">ไม่ต้องค้างคืน, ประหยัดค่าใช้จ่ายที่พัก</td>
+                                <td class="case1-cell">~5-6 ชั่วโมง</td>
+                            </tr>
+                            <tr>
+                                <td>อยากพักก่อน</td>
+                                <td class="case2-cell">🟢 กรณีที่ 2</td>
+                                <td class="case2-cell">พักผ่อนเต็มที่, ไม่รีบร้อน</td>
+                                <td class="case2-cell">1-2 วัน (รวมพัก)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="warning-note" style="margin-top: 30px;">
+                    <i class="fas fa-exclamation-circle"></i>
                     <div>
-                        <strong>เคล็ดลับสำคัญ:</strong> การเปลี่ยนชุดที่สถานีกลางบางซื่อช่วยประหยัดเวลาและไม่ต้องแบกกระเป๋าเดินทางไปเปลี่ยนชุดที่อื่น พร้อมทั้งมีห้องน้ำที่สะอาดและเพียงพอ
-                    </div>
-                </div>
-                
-                <div style="margin-top: 40px;">
-                    <h3><i class="fas fa-train"></i> แนะนำขบวนรถไฟ</h3>
-                    <div class="train-options">
-                        <div class="train-option">
-                            <h5><i class="fas fa-bed"></i> สำหรับนอนพัก</h5>
-                            <p>ขบวน 24 (ด่วนพิเศษ CNR)</p>
-                            <p>มีเตียงนอน, สบาย, เหมาะสำหรับเดินทางกลางคืน</p>
-                        </div>
-                        
-                        <div class="train-option">
-                            <h5><i class="fas fa-wallet"></i> สำหรับงบประมาณ</h5>
-                            <p>ขบวน 140 (รถเร็ว)</p>
-                            <p>ประหยัด, นั่งยาว, เหมาะสำหรับนักศึกษาหรือเดินทางระยะสั้น</p>
-                        </div>
-                        
-                        <div class="train-option">
-                            <h5><i class="fas fa-bolt"></i> สำหรับความเร็ว</h5>
-                            <p>ขบวนด่วน / ด่วนพิเศษ</p>
-                            <p>เร็วกว่า, จอดน้อยสถานี, เหมาะสำหรับผู้เร่งรีบ</p>
-                        </div>
+                        <strong>คำแนะนำสำคัญ:</strong> ไม่ว่าคุณจะเลือกแผนขากลับแบบใด ขอแนะนำให้สำรองตั๋วรถไฟล่วงหน้าโดยเฉพาะในช่วงวันหยุดหรือเทศกาล และตรวจสอบเวลารถไฟจริงก่อนเดินทางทุกครั้ง
                     </div>
                 </div>
             </div>
@@ -959,9 +981,8 @@
     </div>
     
     <footer class="container">
-        <p><i class="fas fa-info-circle"></i> แผนการเดินทางนี้สร้างขึ้นสำหรับการเดินทางไป-กลับสุรินทร์ ↔ จุฬาลงกรณ์มหาวิทยาลัย</p>
-        <p><i class="fas fa-exclamation-triangle"></i> แนะนำให้ตรวจสอบเวลาเดินรถจริงและสำรองตั๋วล่วงหน้าก่อนออกเดินทาง</p>
-        <p style="margin-top: 15px; color: #95a5a6; font-size: 0.9rem;">อัปเดตล่าสุด: มีนาคม 2569</p>
+        <p>แผนการเดินทางนี้สร้างขึ้นสำหรับการเดินทางไป-กลับสุรินทร์ ↔ จุฬาลงกรณ์มหาวิทยาลัย</p>
+        <p>อัปเดตล่าสุด: มีนาคม 2569 | แนะนำให้ตรวจสอบเวลาเดินรถจริงก่อนออกเดินทาง</p>
     </footer>
 
     <script>
@@ -969,7 +990,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const tabs = document.querySelectorAll('.tab');
             const sections = document.querySelectorAll('.section');
-            const progressBar = document.getElementById('progress-to');
             
             tabs.forEach(tab => {
                 tab.addEventListener('click', function() {
@@ -982,13 +1002,6 @@
                     // เพิ่ม active class ให้แท็บและส่วนที่เลือก
                     this.classList.add('active');
                     document.getElementById(target).classList.add('active');
-                    
-                    // อัพเดต progress bar สำหรับขาไป
-                    if (target === 'to-section') {
-                        progressBar.style.width = '100%';
-                    } else {
-                        progressBar.style.width = '0%';
-                    }
                 });
             });
             
@@ -998,23 +1011,16 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
+                        entry.target.style.transform = 'translateY(0)';
                         entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateX(0)';
-                        
-                        // Animate progress bar for to-section steps
-                        if (entry.target.closest('#to-section')) {
-                            const stepNumber = parseInt(entry.target.querySelector('.step-number').textContent);
-                            const progressPercentage = (stepNumber / 5) * 100;
-                            progressBar.style.width = progressPercentage + '%';
-                        }
                     }
                 });
-            }, { threshold: 0.2 });
+            }, { threshold: 0.1 });
             
             steps.forEach(step => {
-                step.style.opacity = '0.8';
-                step.style.transform = 'translateX(-20px)';
-                step.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                step.style.transform = 'translateY(20px)';
+                step.style.opacity = '0.7';
+                step.style.transition = 'transform 0.5s ease, opacity 0.5s ease';
                 observer.observe(step);
             });
             
@@ -1028,8 +1034,7 @@
                     day: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit',
-                    second: '2-digit',
-                    hour12: false
+                    second: '2-digit'
                 };
                 
                 const thaiTime = now.toLocaleDateString('th-TH', options);
@@ -1043,13 +1048,6 @@
             // อัปเดตเวลาทุกวินาที
             updateCurrentTime();
             setInterval(updateCurrentTime, 1000);
-            
-            // Animate progress bar on load for to-section
-            setTimeout(() => {
-                if (progressBar) {
-                    progressBar.style.width = '100%';
-                }
-            }, 500);
         });
     </script>
 </body>
