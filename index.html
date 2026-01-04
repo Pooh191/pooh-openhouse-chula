@@ -35,6 +35,9 @@
             --gradient-warning: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
             --gradient-accent: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%);
             --gradient-blue: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            --chat-bg: #e3f2fd;
+            --chat-user: #2196f3;
+            --chat-ai: #4caf50;
         }
         
         body {
@@ -69,6 +72,298 @@
             z-index: 1;
         }
         
+        /* AI Chatbot Styles */
+        .ai-chatbot {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 400px;
+            height: 550px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .ai-chatbot.active {
+            display: flex;
+            animation: slideInUp 0.4s ease;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .chat-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .chat-header h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .chat-header h3 i {
+            margin-right: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .close-chat:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: var(--chat-bg);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message.user {
+            background: var(--chat-user);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .message.ai {
+            background: white;
+            color: var(--text-dark);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .chat-input {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .chat-input input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+        }
+        
+        .send-btn {
+            background: var(--gradient-blue);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+        }
+        
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .quick-btn {
+            background: rgba(33, 150, 243, 0.1);
+            color: var(--secondary);
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 5px;
+        }
+        
+        .quick-btn:hover {
+            background: var(--secondary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .chatbot-toggle {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 30px rgba(26, 35, 126, 0.3);
+            cursor: pointer;
+            z-index: 999;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+        }
+        
+        .chatbot-toggle:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 15px 40px rgba(26, 35, 126, 0.4);
+        }
+        
+        .chatbot-toggle.active {
+            background: var(--gradient-accent);
+            transform: scale(0.9);
+        }
+        
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-light);
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typingAnimation {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.6;
+            }
+            30% {
+                transform: translateY(-5px);
+                opacity: 1;
+            }
+        }
+        
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 4px;
+            text-align: right;
+        }
+        
+        .message-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .message-content strong {
+            color: var(--primary);
+        }
+        
+        .message-content ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+        
+        .message-content li {
+            margin-bottom: 5px;
+        }
+        
+        /* เพิ่ม CSS สำหรับ scrollbar ใน chat */
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+        
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+        
+        /* Existing styles (keep all previous CSS) */
         header {
             background: var(--gradient-primary);
             color: white;
@@ -1119,18 +1414,84 @@
             margin: 0 auto;
         }
         
-        @media (max-width: 1400px) {
-            .container {
-                padding: 0 20px;
-            }
-            
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .info-card {
-                padding: 35px;
-            }
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .badge-success {
+            background: var(--gradient-success);
+            color: white;
+        }
+        
+        .badge-warning {
+            background: var(--gradient-warning);
+            color: white;
+        }
+        
+        .badge-accent {
+            background: var(--gradient-accent);
+            color: white;
+        }
+        
+        .badge-blue {
+            background: var(--gradient-blue);
+            color: white;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            color: var(--primary);
+            font-weight: 800;
+        }
+        
+        .comparison-table .case1-cell {
+            color: var(--accent);
+            font-weight: 700;
+        }
+        
+        .comparison-table .case2-cell {
+            color: var(--success);
+            font-weight: 700;
+        }
+        
+        .warning-note {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 6px solid var(--accent);
+            margin: 25px 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .warning-note i {
+            color: var(--accent);
+            margin-right: 20px;
+            font-size: 2rem;
         }
         
         @media (max-width: 1100px) {
@@ -1165,61 +1526,12 @@
             .step-container > h2 {
                 font-size: 1.8rem;
             }
-        }
-        
-        @media (max-width: 992px) {
-            .container {
-                padding: 0 18px;
-            }
             
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .subtitle {
-                font-size: 1.15rem;
-            }
-            
-            .tabs {
-                gap: 15px;
-                margin-bottom: 40px;
-            }
-            
-            .tab {
-                padding: 16px 30px;
-                font-size: 0.95rem;
-                min-width: 220px;
-            }
-            
-            .info-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            
-            .info-card {
-                padding: 25px;
-            }
-            
-            .step {
-                padding: 25px;
-            }
-            
-            .location {
-                width: 180px;
-                padding: 20px;
-            }
-            
-            .info-card h2 {
-                font-size: 1.8rem;
-            }
-            
-            .step h3 {
-                font-size: 1.4rem;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 20px;
+            .ai-chatbot {
+                width: 350px;
+                height: 500px;
+                right: 20px;
+                bottom: 20px;
             }
         }
         
@@ -1525,164 +1837,27 @@
             .footer-item p {
                 font-size: 0.9rem;
             }
+            
+            .ai-chatbot {
+                width: 100%;
+                height: 70vh;
+                bottom: 0;
+                right: 0;
+                border-radius: 20px 20px 0 0;
+            }
+            
+            .chatbot-toggle {
+                bottom: 20px;
+                right: 20px;
+                width: 55px;
+                height: 55px;
+                font-size: 1.3rem;
+            }
         }
         
         @media (max-width: 600px) {
-            .container {
-                padding: 0 10px;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-                margin-bottom: 10px;
-            }
-            
-            .subtitle {
-                font-size: 0.9rem;
-                line-height: 1.4;
-            }
-            
-            header {
-                padding: 25px 0 15px;
-                margin-bottom: 15px;
-            }
-            
-            .current-time {
-                margin: -12px auto 20px;
-                padding: 10px 12px;
-                font-size: 0.85rem;
-                border-radius: 10px;
-            }
-            
-            .info-card {
-                padding: 15px;
-                margin-bottom: 20px;
-            }
-            
-            .info-card h2 {
-                font-size: 1.2rem;
-                margin-bottom: 15px;
-            }
-            
-            .info-item {
-                padding: 18px 12px;
-            }
-            
-            .info-item i {
-                font-size: 2.2rem;
-                margin-bottom: 12px;
-            }
-            
-            .step {
-                padding: 16px;
-                margin-bottom: 16px;
-            }
-            
-            .step h3 {
-                font-size: 1rem;
-            }
-            
-            .time-line {
-                padding: 10px 12px;
-                font-size: 0.9rem;
-            }
-            
-            .time {
-                font-size: 0.85rem;
-                padding: 6px 10px;
-                min-width: 70px;
-            }
-            
-            .case {
-                padding: 18px;
-            }
-            
-            .backup-plan {
-                padding: 16px;
-            }
-            
-            .return-option {
-                padding: 22px;
-            }
-            
-            .option-icon {
-                width: 55px;
-                height: 55px;
-                font-size: 1.6rem;
-            }
-            
-            .option-title {
-                font-size: 1.1rem;
-            }
-            
-            .warning-note {
-                padding: 18px;
-            }
-            
-            footer {
-                padding: 25px 12px;
-                margin-top: 40px;
-            }
-            
-            footer p {
-                font-size: 0.9rem;
-            }
-            
-            footer p:first-child {
-                font-size: 0.95rem;
-            }
-        }
-        
-        /* Landscape mode adjustments */
-        @media (max-height: 600px) and (orientation: landscape) {
-            header {
-                padding: 30px 0 20px;
-                margin-bottom: 20px;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-                margin-bottom: 8px;
-            }
-            
-            .subtitle {
-                font-size: 0.9rem;
-            }
-            
-            .current-time {
-                padding: 10px;
-                font-size: 0.85rem;
-            }
-            
-            .tabs {
-                margin-bottom: 25px;
-            }
-            
-            .step {
-                padding: 18px;
-                margin-bottom: 15px;
-            }
-        }
-        
-        /* Touch device adjustments */
-        @media (hover: none) and (pointer: coarse) {
-            .tab,
-            .info-item,
-            .backup-plan,
-            .return-option {
-                padding: 18px;
-            }
-            
-            .tab {
-                min-height: 48px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            button {
-                min-height: 44px;
-                min-width: 44px;
+            .ai-chatbot {
+                height: 80vh;
             }
         }
     </style>
@@ -2239,14 +2414,34 @@
         </div>
     </footer>
 
-    <!-- Floating Button -->
-    <button class="floating-btn" id="scrollTopBtn">
-        <i class="fas fa-arrow-up"></i>
+    <!-- AI Chatbot -->
+    <button class="chatbot-toggle" id="chatbotToggle">
+        <i class="fas fa-robot"></i>
     </button>
+    
+    <div class="ai-chatbot" id="aiChatbot">
+        <div class="chat-header">
+            <h3><i class="fas fa-robot"></i> ผู้ช่วยการเดินทาง</h3>
+            <button class="close-chat" id="closeChat">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <!-- Messages will be added here by JavaScript -->
+        </div>
+        
+        <div class="chat-input">
+            <input type="text" id="chatInput" placeholder="ถามเกี่ยวกับแผนการเดินทาง..." maxlength="200">
+            <button class="send-btn" id="sendBtn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
 
     <script>
-        // ฟังก์ชันเปลี่ยนแท็บ
         document.addEventListener('DOMContentLoaded', function() {
+            // ฟังก์ชันเปลี่ยนแท็บ
             const tabs = document.querySelectorAll('.tab');
             const sections = document.querySelectorAll('.section');
             
@@ -2254,15 +2449,12 @@
                 tab.addEventListener('click', function() {
                     const target = this.getAttribute('data-target');
                     
-                    // ลบ active class จากทั้งหมด
                     tabs.forEach(t => t.classList.remove('active'));
                     sections.forEach(s => s.classList.remove('active'));
                     
-                    // เพิ่ม active class ให้แท็บและส่วนที่เลือก
                     this.classList.add('active');
                     document.getElementById(target).classList.add('active');
                     
-                    // เพิ่มเอฟเฟกต์คลิก
                     this.style.transform = 'scale(0.95)';
                     setTimeout(() => {
                         this.style.transform = '';
@@ -2281,7 +2473,7 @@
                     hour: '2-digit',
                     minute: '2-digit',
                     second: '2-digit',
-                                       hour12: false
+                    hour12: false
                 };
                 
                 const thaiTime = now.toLocaleDateString('th-TH', options);
@@ -2292,61 +2484,472 @@
                 }
             }
             
-            // อัปเดตเวลาทุกวินาที
             updateCurrentTime();
             setInterval(updateCurrentTime, 1000);
             
-            // Floating button for scrolling to top
-            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            // ============ AI Chatbot ============
+            const chatbotToggle = document.getElementById('chatbotToggle');
+            const aiChatbot = document.getElementById('aiChatbot');
+            const closeChat = document.getElementById('closeChat');
+            const chatMessages = document.getElementById('chatMessages');
+            const chatInput = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('sendBtn');
             
-            window.addEventListener('scroll', function() {
-                if (window.pageYOffset > 300) {
-                    scrollTopBtn.classList.add('show');
+            // ข้อมูลคำตอบของ AI
+            const aiResponses = {
+                // กลุ่มคำถามเกี่ยวกับสถานี
+                'สถานี|ผ่านสถานีไหน|สถานีอะไร|สถานีที่ผ่าน': `🚉 <strong>สถานีที่ต้องผ่าน:</strong><br><br>
+                <strong>ขาไป (สุรินทร์ → จุฬาฯ):</strong><br>
+                1️⃣ <strong>สถานีรถไฟสุรินทร์</strong> - จุดเริ่มต้น<br>
+                2️⃣ <strong>สถานีกลางกรุงเทพอภิวัฒน์</strong> - ถึง 06:50 น.<br>
+                3️⃣ <strong>MRT บางซื่อ</strong> - เชื่อมต่อจากสถานีกลาง<br>
+                4️⃣ <strong>MRT สวนจตุจักร</strong> - ต่อ BTS หมอชิต<br>
+                5️⃣ <strong>BTS หมอชิต</strong> - จุดนัดพบเพื่อน (07:15 น.)<br>
+                6️⃣ <strong>MRT สามย่าน</strong> - ใกล้จุฬาฯ (07:50-08:15 น.)<br>
+                7️⃣ <strong>จุฬาลงกรณ์มหาวิทยาลัย</strong> - จุดหมายปลายทาง<br><br>
+                <em>ระยะทางทั้งหมด: ประมาณ 380 กม.</em>`,
+                
+                // กลุ่มคำถามเกี่ยวกับเวลา
+                'เวลา|ใช้เวลา|นานแค่ไหน|นานเท่าไหร่|กี่ชั่วโมง|ถึงเมื่อไหร่': `⏰ <strong>เวลาเดินทางโดยประมาณ:</strong><br><br>
+                📍 <strong>รถไฟสุรินทร์ → กรุงเทพ:</strong><br>
+                • ออก: 22:56 น. (27 มี.ค.)<br>
+                • ถึง: 06:50 น. (28 มี.ค.)<br>
+                • เวลา: 7 ชั่วโมง 54 นาที<br><br>
+                📍 <strong>สถานีกลาง → หมอชิต:</strong> 25 นาที<br>
+                📍 <strong>หมอชิต → สามย่าน:</strong> 25 นาที<br>
+                📍 <strong>สามย่าน → จุฬาฯ:</strong> 10-15 นาที<br><br>
+                <strong>⏳ รวมทั้งหมด: ประมาณ 10 ชั่วโมง</strong>`,
+                
+                // กลุ่มคำถามเกี่ยวกับเปลี่ยนชุด
+                'เปลี่ยนชุด|ชุดนักเรียน|เปลี่ยนเสื้อ|เปลี่ยนผ้า|เปลี่ยน': `👕 <strong>ข้อมูลการเปลี่ยนชุด:</strong><br><br>
+                <strong>เปลี่ยนจากชุด:</strong> ชุดเล่น<br>
+                <strong>เปลี่ยนเป็นชุด:</strong> ชุดนักเรียน<br><br>
+                📍 <strong>สถานที่:</strong> ห้องน้ำภายในสถานีกลางกรุงเทพอภิวัฒน์<br>
+                🕐 <strong>เวลา:</strong> หลังถึงสถานี (06:50 น.)<br>
+                ⏳ <strong>ใช้เวลา:</strong> 10-15 นาที<br><br>
+                💡 <strong>เหตุผล:</strong><br>
+                • มีพื้นที่เพียงพอ<br>
+                • สะดวกและสอบถามพนักงานได้<br>
+                • เป็นสถานที่สาธารณะ ปลอดภัย<br><br>
+                ⚠️ <strong>สำคัญ:</strong> ควรเปลี่ยนก่อนขึ้น MRT เพื่อความเรียบร้อย`,
+                
+                // กลุ่มคำถามเกี่ยวกับการรอเพื่อน
+                'รอเพื่อน|จุดนัด|นัดพบ|รอที่ไหน|เจอเพื่อน': `📍 <strong>ข้อมูลการนัดพบเพื่อน:</strong><br><br>
+                <strong>สถานที่นัดพบ:</strong> BTS หมอชิต<br>
+                <strong>จุดแนะนำ:</strong> ชั้นจำหน่ายตั๋ว หรือบริเวณหน้า Turnstile<br>
+                <strong>เวลานัด:</strong> 07:15 น.<br><br>
+                📋 <strong>กรณี A (เพื่อนมาถึง):</strong><br>
+                • เจอเพื่อนเลย (07:15 น.)<br>
+                • ต่อเดินทางทันที (07:20 น.)<br><br>
+                ⏳ <strong>กรณี B (รอเพื่อน):</strong><br>
+                • รอระหว่าง 07:15 - 07:45 น.<br>
+                • รอได้ไม่เกิน 30 นาที<br>
+                • ถ้าเพื่อนไม่มาให้เดินทางต่อคนเดียว<br><br>
+                💬 <strong>เคล็ดลับ:</strong> ติดต่อเพื่อนก่อนถึงหมอชิตเพื่อยืนยันเวลา`,
+                
+                // กลุ่มคำถามเกี่ยวกับแผนสำรอง
+                'แผนสำรอง|ทางเลือก|ไม่ทัน|แผน B|สำรอง|ทางอื่น': `🔄 <strong>แผนสำรอง 3 ทางเลือก:</strong><br><br>
+                <strong>✅ แผนสำรอง 1 (ง่ายสุด):</strong><br>
+                • รอ MRT ขบวนถัดไป<br>
+                • เวลาเพิ่ม: 5-7 นาที<br>
+                • เหมาะถ้า: อยากมั่นใจ<br><br>
+                <strong>✅ แผนสำรอง 2 (ใช้ BTS):</strong><br>
+                • BTS หมอชิต → สยาม → เดิน/ต่อรถ<br>
+                • เวลาเพิ่ม: 15-20 นาที<br>
+                • เหมาะถ้า: MRT ติด<br><br>
+                <strong>✅ แผนสำรอง 3 (เร่งด่วน):</strong><br>
+                • เรียก Grab/Taxi จากหมอชิต<br>
+                • เวลา: 15-30 นาที (ขึ้นกับจราจร)<br>
+                • เหมาะถ้า: รีบมาก<br><br>
+                💰 <strong>เคล็ดลับ:</strong> หลีกเลี่ยงแผน 3 ถ้าไม่รีบ (ค่าใช้จ่ายสูง)`,
+                
+                // กลุ่มคำถามเกี่ยวกับขากลับ
+                'ขากลับ|กลับบ้าน|วิธีกลับ|เดินทางกลับ|กลับสุรินทร์|กลับบ้านยังไง': `🔄 <strong>แผนขากลับ 2 ทางเลือก:</strong><br><br>
+                <strong>📌 กรณีที่ 1: กลับวันนั้นเลย</strong><br>
+                • เหมาะถ้า: ไม่ดึก, ไม่อยากค้าง<br>
+                • ขึ้นรถไฟ: ~21:30-23:00 น.<br>
+                • เวลาเดินทาง: 5-6 ชั่วโมง<br>
+                • ถึงสุรินทร์: เช้าวันถัดไป (04:45-06:00 น.)<br>
+                • ค่าใช้จ่าย: ประหยัด (ไม่ต้องค้างแรม)<br><br>
+                <strong>📌 กรณีที่ 2: กลับวันถัดไป</strong><br>
+                • เหมาะถ้า: ดึก, อยากพัก, มีที่พัก<br>
+                • พัก: 1 คืน (เช่น ลาดกระบัง)<br>
+                • ออกวันรุ่งขึ้น: เวลาตามสะดวก<br>
+                • ถึงสุรินทร์: เย็นวันถัดไป (18:00-21:00 น.)<br>
+                • ค่าใช้จ่าย: มากกว่า (รวมค่าแรม)<br><br>
+                💡 <strong>แนะนำ:</strong> เลือกตามเวลาออกจากจุฬาฯ`,
+                
+                // กลุ่มคำถามเกี่ยวกับรถไฟขากลับ
+                'รถไฟขากลับ|ขบวนไหน|ตั๋วกลับ|รถไฟกลับ|รถไฟอะไรดี': `🚆 <strong>รถไฟขากลับจากกรุงเทพ:</strong><br><br>
+                <strong>ขบวน 24 (ด่วนพิเศษ CNR)</strong><br>
+                🕐 ออก: ~21:38 น.<br>
+                🕐 ถึง: ~04:45 น.<br>
+                🛏️ เตียงนอน: มี (สบายสุด)<br>
+                ❄️ แอร์: มี<br>
+                💰 ราคา: แพงสุด (300-500 บาท)<br>
+                ⭐ เหมาะที่สุด<br><br>
+                <strong>ขบวน 140 (รถเร็ว)</strong><br>
+                🕐 ออก: ~22:56 น.<br>
+                🕐 ถึง: ~05:55 น.<br>
+                💺 ที่นั่ง: นั่งยาว<br>
+                💰 ราคา: ประหยัด (100-200 บาท)<br>
+                ⭐ ประหยัด<br><br>
+                <strong>ขบวน 11 (ด่วนธรรมดา)</strong><br>
+                🕐 ออก: ~23:30 น.<br>
+                🕐 ถึง: ~06:30 น.<br>
+                💺 ที่นั่ง: นั่งธรรมดา<br>
+                💰 ราคา: ถูกที่สุด (80-150 บาท)<br><br>
+                ⚠️ <strong>สำคัญ:</strong> สำรองตั๋วล่วงหน้า 3-7 วัน`,
+                
+                // กลุ่มคำถามเกี่ยวกับเวลาเผื่อ
+                'ต้องเผื่อเวลา|เวลาเผื่อ|เผื่อเท่าไหร่|เผื่อเวลา|เตรียมเวลา': `⏳ <strong>เวลาเผื่อที่แนะนำ:</strong><br><br>
+                🏠 <strong>ที่บ้าน → สถานีสุรินทร์:</strong> เผื่อ 1 ชั่วโมง<br>
+                (ถึงสถานี 21:56 น. ล่าสุด)<br><br>
+                🏢 <strong>สถานี → ขึ้นรถไฟ:</strong> เผื่อ 56 นาที<br>
+                (เดาะ/เช็คอิน/หาชั้น)<br><br>
+                🚗 <strong>สถานีกลาง → หมอชิต:</strong> เผื่อ 25 นาที<br>
+                (รวมเปลี่ยนชุด 10-15 นาที)<br><br>
+                👥 <strong>หมอชิต → รอเพื่อน:</strong> เผื่อ 30 นาที<br>
+                (กรณี B รอนานสุด)<br><br>
+                📍 <strong>สวนจตุจักร → สามย่าน:</strong> เผื่อ 25 นาที<br>
+                (รวมเปลี่ยนไป MRT)<br><br>
+                🚶 <strong>สามย่าน → จุฬาฯ:</strong> เผื่อ 10-15 นาที<br>
+                (เดิน + หาทางเข้า)<br><br>
+                <strong>📊 รวมทั้งหมด: 2.5-3 ชั่วโมง</strong>`,
+                
+                // กลุ่มคำถามเกี่ยวกับค่าใช้จ่าย
+                'ค่าใช้จ่าย|ราคา|เงิน|งบประมาณ|ค่าเท่าไหร่|ราคาเท่าไหร่': `💰 <strong>ค่าใช้จ่ายโดยประมาณ:</strong><br><br>
+                <strong>ขาไป:</strong><br>
+                • รถไฟสุรินทร์→กรุงเทพ: 150-300 บาท<br>
+                • MRT (เบตสวนจตุจักร): 25-40 บาท<br>
+                • BTS หมอชิต: 20-25 บาท<br>
+                • MRT (สามย่าน): 35-40 บาท<br><br>
+                <strong>อาหาร/เครื่องดื่ม:</strong><br>
+                • บนรถไฟ: 50-100 บาท<br>
+                • สถานีกลาง: 30-50 บาท<br>
+                • ท้องถนน: 30-80 บาท<br><br>
+                <strong>ขากลับ:</strong><br>
+                • ขบวน 24 (CNR): 300-500 บาท<br>
+                • ขบวน 140 (เร็ว): 100-200 บาท<br>
+                • ขบวน 11 (ธรรมดา): 80-150 บาท<br><br>
+                <strong>ค่าพัก (ถ้ากลับวันถัดไป):</strong><br>
+                • โรงแรมระดับ 3 ดาว: 500-1,000 บาท<br>
+                • โรงแรมระดับ 2 ดาว: 200-500 บาท<br><br>
+                <strong>📈 งบประมาณรวม:</strong><br>
+                • กลับวันนั้น: 650-1,250 บาท<br>
+                • กลับวันถัดไป: 1,350-2,450 บาท<br><br>
+                💡 <strong>เคล็ดลับ:</strong> ประหยัดได้โดยนั่งรถไฟชั้น 3 และกินอาหารร้านตามสั่ง`,
+                
+                // กลุ่มคำถามเกี่ยวกับสรุป
+                'สรุป|ทั้งหมด|ครบ|ข้อมูลโดยสรุป|สรุปให้หน่อย|ย่อ': `📋 <strong>สรุปแผนการเดินทางทั้งหมด:</strong><br><br>
+                <strong>📅 วันที่ 27-28 มีนาคม 2569 (ขาไป)</strong><br>
+                22:00 น. - ออกจากบ้านไปสถานีสุรินทร์<br>
+                22:56 น. - ขึ้นรถไฟขบวน 140 ปลายทางกรุงเทพ<br>
+                06:50 น. - ถึงสถานีกลาง, เปลี่ยนชุด (10-15 นาที)<br>
+                07:05 น. - ขึ้น MRT สายสีน้ำเงิน<br>
+                07:15 น. - ถึงหมอชิต, รอเพื่อน (ไม่เกิน 30 นาที)<br>
+                07:25-07:50 น. - ขึ้น MRT ไป สามย่าน<br>
+                08:05-08:30 น. - ถึงจุฬาลงกรณ์มหาวิทยาลัย ✅<br><br>
+                <strong>🔄 ขากลับ 2 ตัวเลือก:</strong><br>
+                • <strong>กรณีที่ 1 (วันนั้น):</strong> 21:30-23:00 น. ขึ้นรถไฟกลับ → 04:45-06:00 น. ถึงสุรินทร์<br>
+                • <strong>กรณีที่ 2 (วันถัดไป):</strong> พัก 1 คืน → วันรุ่งขึ้นขึ้นรถกลับ<br><br>
+                <strong>💰 งบประมาณ:</strong> 650-1,250 บาท (ขาไป) + 100-500 บาท (ขากลับ)<br>
+                <strong>⏳ รวมเวลา:</strong> ประมาณ 10 ชั่วโมง (ขาไป)`,
+                
+                // กลุ่มคำถามเกี่ยวกับเคล็ดลับ
+                'tips|เคล็ดลับ|แนวทาง|คำแนะนำ|ควรทำอะไร|ต้องเตรียมอะไร': `💡 <strong>เคล็ดลับสำหรับการเดินทาง:</strong><br><br>
+                <strong>🧳 อุปกรณ์ที่ควรเตรียม:</strong><br>
+                • ชุดเปลี่ยน (ห่อให้ดี)<br>
+                • หมวก/สิ่งปกป้องแดด<br>
+                • กระเป๋าสตางค์ที่ต่อเนื่อง<br>
+                • โทรศัพท์มือถือชาร์จแบต<br>
+                • ยาแ�นว/ยาที่ใช้ประจำ<br>
+                • กระดาษทิชชู<br><br>
+                <strong>📱 ของจำเป็น:</strong><br>
+                • ดาวน์โหลด Google Maps ล่วงหน้า<br>
+                • บันทึกหมายเลขโทรศัพท์เพื่อนหลัก<br>
+                • เตรียมตั๋ว e-Ticket ของรถไฟ<br><br>
+                <strong>🧠 เคล็ดลับสำคัญ:</strong><br>
+                • ตื่นตัวก่อนหมอชิต 15 นาที<br>
+                • รวบรวมสัมภาระก่อนเดินทาง<br>
+                • มีแผนสำรองถ้า MRT ติด<br>
+                • ติดต่อเพื่อนบ่อยๆ ตอนเดินทาง<br>
+                • ถ่ายรูป QR code ตั๋วเหลือ<br><br>
+                <strong>⚠️ สิ่งที่ต้องระวัง:</strong><br>
+                • หลีกเลี่ยงจำนวนเงินสดมาก<br>
+                • รักษาของมีค่า/ตั๋วให้ดี<br>
+                • ไม่ไว้ใจคนแปลกหน้า<br>
+                • ดูแลตัวเอง ไม่ลืมยา/วิตามิน`,
+                
+                // กลุ่มคำถามเกี่ยวกับข้อมูลติดต่อ
+                'ติดต่อสถานี|หมายเลขโทร|ข้อมูลสถานี|โทรศัพท์|ติดต่อใคร|เบอร์โทร': `📞 <strong>ข้อมูลการติดต่อ:</strong><br><br>
+                <strong>🚆 สถานีรถไฟสุรินทร์:</strong><br>
+                โทร: 0-4455-6011-5<br>
+                ที่อยู่: สถานีรถไฟสุรินทร์<br>
+                เวลาเปิด: 05:00 - 23:00 น.<br><br>
+                <strong>🏢 สถานีกลางกรุงเทพอภิวัฒน์:</strong><br>
+                โทร: 0-2513-3762<br>
+                ที่อยู่: ถนนบางซื่อ กรุงเทพฯ<br>
+                เวลาเปิด: 05:00 - 23:00 น.<br><br>
+                <strong>🚇 MRT สามย่าน:</strong><br>
+                โทร: 0-2202-2000 (ศูนย์รับสาย)<br>
+                วิทยุติดต่อ: BTS/MRT บางซื่อ<br><br>
+                <strong>🚅 ข้อมูลรถไฟทั่วไป:</strong><br>
+                โทร: 1690 (ศูนย์บริหารรถไฟ)<br>
+                เว็บไซต์: www.railway.co.th<br>
+                แอป: Thai Railway<br><br>
+                💬 <strong>ติดต่อ AI นี้ได้:</strong> ถามผ่านแชทนี้ได้ตลอด!`,
+                
+                // กลุ่มคำถามทั่วไป
+                'สวัสดี|hello|hi|หวัดดี|ครับ|ค่ะ': `👋 <strong>สวัสดีครับ!</strong><br><br>
+                ยินดีต้อนรับสู่ผู้ช่วยการเดินทางจากสุรินทร์ไปจุฬาฯ<br>
+                ผมสามารถช่วยตอบคำถามเกี่ยวกับ:<br>
+                • แผนการเดินทางไป-กลับ<br>
+                • เวลาและสถานี<br>
+                • ค่าใช้จ่าย<br>
+                • เคล็ดลับการเดินทาง<br>
+                • และอื่นๆ<br><br>
+                ลองถามคำถามดูได้เลยครับ! 😊`,
+                
+                'ขอบคุณ|thank|thanks|ขอบใจ|ดีมาก': `🙏 <strong>ยินดีช่วยเหลือครับ!</strong><br><br>
+                หากมีคำถามเพิ่มเติม สามารถถามต่อได้เลย<br>
+                หรือเลือกคำถามจากปุ่มด้านล่าง<br><br>
+                ขอให้เดินทางอย่างปลอดภัยนะครับ! 🚆`,
+                
+                'ช่วยเหลือ|help|ช่วยได้ไหม|ช่วยหน่อย|ช่วย': `🤖 <strong>ผมช่วยคุณได้ครับ!</strong><br><br>
+                ลองถามเกี่ยวกับ:<br>
+                • <strong>"สถานีไหนบ้าง"</strong> - ดูสถานีทั้งหมด<br>
+                • <strong>"เวลาเดินทาง"</strong> - ดูเวลาที่ใช้<br>
+                • <strong>"เปลี่ยนชุด"</strong> - ข้อมูลการเปลี่ยนชุด<br>
+                • <strong>"ค่าใช้จ่าย"</strong> - ดูงบประมาณ<br>
+                • <strong>"ขากลับ"</strong> - ตัวเลือกการกลับบ้าน<br>
+                • <strong>"เคล็ดลับ"</strong> - เคล็ดลับการเดินทาง<br><br>
+                หรือเลือกคำถามจากปุ่มด้านล่างเลยครับ!`,
+            };
+            
+            // คำถามแนะนำ
+            const quickQuestions = [
+                'สถานีไหนบ้าง',
+                'เวลาเดินทาง',
+                'เปลี่ยนชุด',
+                'รอเพื่อน',
+                'แผนสำรอง',
+                'ขากลับ',
+                'รถไฟขากลับ',
+                'ค่าใช้จ่าย',
+                'เคล็ดลับ',
+                'สรุป'
+            ];
+            
+            // เริ่มต้นแชท
+            function initChat() {
+                addAIMessage('สวัสดีครับ! ผมคือผู้ช่วยการเดินทางจากสุรินทร์ไปจุฬาฯ 👋<br><br>มีคำถามอะไรเกี่ยวกับแผนการเดินทางไหมครับ?');
+                
+                setTimeout(() => {
+                    addQuickQuestions();
+                }, 500);
+            }
+            
+            // เพิ่มข้อความจาก AI
+            function addAIMessage(message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message ai';
+                
+                const time = new Date().toLocaleTimeString('th-TH', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+                
+                messageDiv.innerHTML = `
+                    <div class="message-content">${message}</div>
+                    <div class="message-time">${time}</div>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // เพิ่มข้อความจากผู้ใช้
+            function addUserMessage(message) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message user';
+                
+                const time = new Date().toLocaleTimeString('th-TH', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+                
+                messageDiv.innerHTML = `
+                    <div class="message-content">${message}</div>
+                    <div class="message-time">${time}</div>
+                `;
+                
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // เพิ่มคำถามแนะนำ
+            function addQuickQuestions() {
+                const questionsDiv = document.createElement('div');
+                questionsDiv.className = 'quick-questions';
+                
+                quickQuestions.forEach(question => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quick-btn';
+                    btn.textContent = question;
+                    btn.addEventListener('click', () => {
+                        chatInput.value = question;
+                        sendMessage();
+                    });
+                    questionsDiv.appendChild(btn);
+                });
+                
+                chatMessages.appendChild(questionsDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // ฟังก์ชันค้นหาคำตอบที่ตรงกัน
+            function findResponse(message) {
+                const msg = message.toLowerCase().trim();
+                
+                // ค้นหาจาก keyword
+                for (const [key, response] of Object.entries(aiResponses)) {
+                    const keywords = key.split('|');
+                    for (const keyword of keywords) {
+                        if (msg.includes(keyword.toLowerCase())) {
+                            return response;
+                        }
+                    }
+                }
+                
+                // หากไม่เจอให้ตอบทั่วไป
+                return `🤔 <strong>ขอโทษนะครับ!</strong><br><br>
+                ผมยังไม่แน่ใจเกี่ยวกับคำถามนั้น ลองถามใหม่เกี่ยวกับ:<br>
+                • <strong>สถานี</strong> ที่ต้องผ่าน<br>
+                • <strong>เวลา</strong> เดินทาง<br>
+                • <strong>ค่าใช้จ่าย</strong><br>
+                • <strong>ขากลับ</strong> เหมาะแบบไหน<br>
+                • <strong>แผนสำรอง</strong><br>
+                • <strong>เคล็ดลับ</strong> การเดินทาง<br><br>
+                💡 <strong>เลือกคำถามจากปุ่มด้านล่าง</strong> หรือถามใหม่อีกครั้งนะครับ! 😊`;
+            }
+            
+            // ส่งข้อความ
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+                
+                // เพิ่มข้อความผู้ใช้
+                addUserMessage(message);
+                chatInput.value = '';
+                
+                // ลบคำถามแนะนำเก่า
+                const oldQuickQuestions = chatMessages.querySelector('.quick-questions');
+                if (oldQuickQuestions) {
+                    chatMessages.removeChild(oldQuickQuestions);
+                }
+                
+                // แสดงสถานะกำลังพิมพ์
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'message ai';
+                typingDiv.innerHTML = `
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                `;
+                chatMessages.appendChild(typingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // ค้นหาคำตอบ
+                setTimeout(() => {
+                    // ลบสถานะกำลังพิมพ์
+                    if (typingDiv.parentNode) {
+                        chatMessages.removeChild(typingDiv);
+                    }
+                    
+                    // ค้นหาคำตอบ
+                    const response = findResponse(message);
+                    
+                    // เพิ่มคำตอบจาก AI
+                    addAIMessage(response);
+                    
+                    // เพิ่มคำถามแนะนำอีกครั้ง
+                    setTimeout(() => {
+                        addQuickQuestions();
+                    }, 300);
+                    
+                    // 🔧 แก้ไข: ให้แชทบอทยังคงเปิด (ไม่หุบลง)
+                    // ตรวจสอบให้แน่ใจว่าแชทบอทยังเปิด
+                    if (!aiChatbot.classList.contains('active')) {
+                        aiChatbot.classList.add('active');
+                        chatbotToggle.classList.add('active');
+                        chatbotToggle.innerHTML = '<i class="fas fa-times"></i>';
+                    }
+                }, 1000 + Math.random() * 500);
+            }
+            
+            // เปิด/ปิดแชทบอท
+            chatbotToggle.addEventListener('click', function(e) {
+                e.stopPropagation(); // ป้องกันการปิดจากการคลิกนอก
+                aiChatbot.classList.toggle('active');
+                chatbotToggle.classList.toggle('active');
+                
+                if (aiChatbot.classList.contains('active')) {
+                    chatbotToggle.innerHTML = '<i class="fas fa-times"></i>';
+                    setTimeout(() => {
+                        chatInput.focus();
+                    }, 100);
                 } else {
-                    scrollTopBtn.classList.remove('show');
+                    chatbotToggle.innerHTML = '<i class="fas fa-robot"></i>';
                 }
             });
             
-            scrollTopBtn.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+            closeChat.addEventListener('click', function(e) {
+                e.stopPropagation(); // ป้องกันการปิดจากการคลิกนอก
+                aiChatbot.classList.remove('active');
+                chatbotToggle.classList.remove('active');
+                chatbotToggle.innerHTML = '<i class="fas fa-robot"></i>';
             });
             
-            // เพิ่ม animation สำหรับการโหลดหน้า
-            document.body.style.opacity = '0';
-            document.body.style.transition = 'opacity 0.5s ease';
+            // ส่งข้อความเมื่อกด Enter
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
             
-            setTimeout(() => {
-                document.body.style.opacity = '1';
-            }, 100);
+            // ส่งข้อความเมื่อกดปุ่มส่ง
+            sendBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                sendMessage();
+            });
             
-            // เพิ่ม animation ให้กับ step elements
-            const steps = document.querySelectorAll('.step');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.transform = 'translateX(0) translateY(0)';
-                        entry.target.style.opacity = '1';
+            // 🔧 แก้ไข: ปรับปรุงการควบคุมการคลิกนอก
+            aiChatbot.addEventListener('click', function(e) {
+                e.stopPropagation(); // หยุดการแพร่กระจายของเหตุการณ์คลิก
+            });
+            
+            chatMessages.addEventListener('click', function(e) {
+                e.stopPropagation(); // ป้องกันการปิดเมื่อคลิกในพื้นที่ข้อความ
+            });
+            
+            // ฟังก์ชันสำหรับคลิกนอกแชทเพื่อปิด (เพิ่มเติม)
+            document.addEventListener('click', (e) => {
+                // 🔧 แก้ไข: ตรวจสอบให้ชัดเจนว่ากำลังคลิกที่ไหน
+                const clickedElement = e.target;
+                const isInsideChatbot = aiChatbot.contains(clickedElement);
+                const isToggleButton = chatbotToggle.contains(clickedElement);
+                
+                // ถ้าคลิกนอก chatbot และ toggle button จึงปิด
+                if (!isInsideChatbot && !isToggleButton) {
+                    if (aiChatbot.classList.contains('active')) {
+                        // ไม่ต้องปิดอัตโนมัติ - ให้ผู้ใช้ปิดเอง
+                        // สำเร็จแล้ว - เปลี่ยนมาให้เปิดค้างไว้เลย
                     }
-                });
-            }, { threshold: 0.1 });
-            
-            steps.forEach(step => {
-                step.style.transform = 'translateX(-20px) translateY(20px)';
-                step.style.opacity = '0.8';
-                step.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
-                observer.observe(step);
-            });
-            
-            // เพิ่ม animation ให้กับ info items
-            const infoItems = document.querySelectorAll('.info-item');
-            infoItems.forEach(item => {
-                item.style.transform = 'translateY(20px)';
-                item.style.opacity = '0.8';
-                item.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
-                observer.observe(item);
+                }
             });
         });
     </script>
